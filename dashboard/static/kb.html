@@ -148,20 +148,20 @@ function renderCodeBlock(lang, code) {
 }
 
 function renderMarkdown(md) {
-  let html = md;
+  // 1단계: 코드 블록을 먼저 추출하여 플레이스홀더로 치환 (파서 충돌 방지)
+  const codeBlocks = [];
+  let html = md.replace(/^```(\w*)\n([\s\S]*?)^```$/gm, (match, lang, code) => {
+    const idx = codeBlocks.length;
+    if (lang === 'mermaid') {
+      codeBlocks.push(`<div class="mermaid">${code.trim()}</div>`);
+    } else {
+      codeBlocks.push(renderCodeBlock(lang, code));
+    }
+    return `%%CODEBLOCK_${idx}%%`;
+  });
 
   // [[]] → 보라색 텍스트 (링크 아님)
   html = html.replace(/\[\[([^\]]+)\]\]/g, '<span class="wiki-ref">[[$1]]</span>');
-
-  // Mermaid 블록
-  html = html.replace(/```mermaid\n([\s\S]*?)```/g, (_, diagram) => {
-    return `<div class="mermaid">${diagram.trim()}</div>`;
-  });
-
-  // 코드 블록 (```lang ... ```) → 라인넘버 + 강조
-  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
-    return renderCodeBlock(lang, code);
-  });
 
   // 인라인 코드
   html = html.replace(/`([^`\n]+)`/g, '<code>$1</code>');
@@ -210,6 +210,11 @@ function renderMarkdown(md) {
 
   // 연속 blockquote 합치기
   html = html.replace(/<\/blockquote>\s*<blockquote>/g, '<br>');
+
+  // 코드 블록 플레이스홀더 복원
+  codeBlocks.forEach((block, i) => {
+    html = html.replace(`%%CODEBLOCK_${i}%%`, block);
+  });
 
   return `<p>${html}</p>`;
 }
