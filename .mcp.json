@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "database-mcp": {
+      "command": "python",
+      "args": [
+        "C:/Users/AC0833/project/policy_agent/mcp-server/folder_server.py",
+        "--folder",
+        "C:/Users/AC0833/project/policy_agent/database",
+        "--name",
+        "database-mcp",
+        "--description",
+        "DB 계정 생성 및 관리 정책 (Oracle, PostgreSQL)"
+      ]
+    },
+    "outline-mcp": {
+      "type": "http",
+      "url": "https://orbit-mcp-api.fnf.co.kr/api/projects/2eb87f85-7acc-4aa0-8d4f-6bb2e7c2bf9b/subscriptions/a32e0719-c6eb-4596-87db-5f4e00dde086/mcp"
+    }
+  }
+}

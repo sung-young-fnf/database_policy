@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Database KB 문서 뷰어</title>
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', 'Malgun Gothic', sans-serif; background: #fff; color: #1a1a2e; display: flex; height: 100vh; }
+
+  /* 좌측 사이드바 */
+  .sidebar {
+    width: 280px; min-width: 280px; background: #f7f8fa; border-right: 1px solid #e8e8e8;
+    overflow-y: auto; padding: 16px 0;
+  }
+  .sidebar-title {
+    font-size: 13px; font-weight: 700; color: #636e72; padding: 0 16px 12px;
+    border-bottom: 1px solid #e8e8e8; margin-bottom: 8px; letter-spacing: 0.5px;
+  }
+  .folder-name {
+    font-size: 12px; font-weight: 600; color: #636e72; padding: 8px 16px 4px;
+    text-transform: uppercase; letter-spacing: 0.3px;
+  }
+  .doc-item {
+    display: block; padding: 6px 16px 6px 24px; font-size: 13px; color: #2d3436;
+    cursor: pointer; text-decoration: none; border-left: 3px solid transparent;
+    transition: all 0.15s;
+  }
+  .doc-item:hover { background: #e8f4fd; }
+  .doc-item.active { background: #dbeafe; border-left-color: #3b82f6; font-weight: 600; }
+  .doc-item.sub { padding-left: 36px; font-size: 12.5px; }
+
+  /* 우측 콘텐츠 */
+  .content {
+    flex: 1; overflow-y: auto; padding: 32px 48px; max-width: 960px;
+  }
+  .content.empty {
+    display: flex; align-items: center; justify-content: center; color: #b2bec3; font-size: 15px;
+  }
+
+  /* 마크다운 렌더링 */
+  .content h1 { font-size: 24px; font-weight: 700; margin-bottom: 16px; color: #1a1a2e; border-bottom: 2px solid #e8e8e8; padding-bottom: 8px; }
+  .content h2 { font-size: 18px; font-weight: 600; margin: 28px 0 8px; color: #0f3460; border-bottom: 1px solid #eee; padding-bottom: 4px; }
+  .content h3 { font-size: 15px; font-weight: 600; margin: 20px 0 6px; color: #2d3436; }
+  .content h4 { font-size: 14px; font-weight: 600; margin: 14px 0 4px; color: #636e72; }
+  .content p { margin: 6px 0; line-height: 1.7; font-size: 14px; }
+  .content ul, .content ol { margin: 6px 0 6px 20px; font-size: 14px; }
+  .content li { margin: 3px 0; line-height: 1.6; }
+  .content blockquote {
+    border-left: 3px solid #3b82f6; background: #f0f7ff; padding: 8px 14px;
+    margin: 8px 0; font-size: 13px; color: #2d3436;
+  }
+
+  /* 인라인 코드 */
+  .content code {
+    background: #f1f2f6; padding: 1px 5px; border-radius: 3px;
+    font-family: 'Consolas', 'D2Coding', monospace; font-size: 12.5px; color: #e74c3c;
+  }
+
+  /* 코드 블록 */
+  .content pre {
+    background: #f5f6f8; color: #2d3436; border-radius: 6px; border: 1px solid #e0e0e0;
+    overflow-x: auto; margin: 10px 0; font-size: 12.5px; line-height: 1.6;
+    position: relative;
+  }
+  .content pre code { background: none; padding: 0; color: inherit; }
+  .code-block-wrapper { position: relative; }
+  .code-lang-badge {
+    position: absolute; top: 0; right: 0; background: #e0e0e0; color: #636e72;
+    padding: 2px 10px; font-size: 11px; border-radius: 0 6px 0 6px;
+  }
+  .code-with-lines { display: flex; }
+  .code-lines {
+    padding: 14px 0; text-align: right; color: #b0b0b0; user-select: none;
+    border-right: 1px solid #ddd; min-width: 40px; font-size: 12.5px; line-height: 1.6;
+  }
+  .code-lines span { display: block; padding: 0 8px; }
+  .code-body { padding: 14px 16px; flex: 1; overflow-x: auto; white-space: pre; }
+
+  /* SQL 구문 강조 (밝은 배경용) */
+  .kw { color: #0550ae; font-weight: 600; }  /* keyword */
+  .str { color: #a3600a; } /* string */
+  .cm { color: #6a737d; }  /* comment */
+  .fn { color: #6639ba; }  /* function */
+  .num { color: #0a7d3e; } /* number */
+
+  /* 테이블 */
+  .content table { border-collapse: collapse; margin: 10px 0; font-size: 13px; width: 100%; }
+  .content th { background: #f7f8fa; padding: 8px 12px; text-align: left; font-weight: 600; border: 1px solid #e0e0e0; }
+  .content td { padding: 7px 12px; border: 1px solid #e0e0e0; vertical-align: top; }
+  .content tr:nth-child(even) td { background: #fafbfc; }
+  .content hr { border: none; border-top: 1px solid #e8e8e8; margin: 24px 0; }
+
+  /* [[]] 위키 링크 — 텍스트만, 클릭 불가 */
+  .wiki-ref { color: #7c3aed; font-weight: 500; }
+
+  /* Mermaid */
+  .mermaid { margin: 12px 0; }
+
+  .loading { text-align: center; padding: 40px; color: #b2bec3; }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-title">Database KB</div>
+  <div id="tree"></div>
+</div>
+
+<div class="content empty" id="content">
+  좌측에서 문서를 선택하세요
+</div>
+
+<script>
+mermaid.initialize({ startOnLoad: false, theme: 'default' });
+
+const SQL_KEYWORDS = /\b(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP|GRANT|REVOKE|FROM|WHERE|JOIN|ON|TO|WITH|AS|SET|INTO|VALUES|AND|OR|NOT|IN|EXISTS|CASE|WHEN|THEN|ELSE|END|BEGIN|DECLARE|EXECUTE|IMMEDIATE|FOR|LOOP|IF|RETURN|NULL|TRUE|FALSE|ROLE|USER|DATABASE|SCHEMA|TABLE|INDEX|SEQUENCE|VIEW|FUNCTION|PROCEDURE|TRIGGER|TYPE|TABLESPACE|DATAFILE|AUTOEXTEND|MAXSIZE|IDENTIFIED|BY|DEFAULT|TEMPORARY|ACCOUNT|UNLOCK|QUOTA|UNLIMITED|NOLOGIN|LOGIN|PASSWORD|CONNECT|RESOURCE|OWNER|ENCODING|AUTHORIZATION|CASCADE|PRIVILEGES|ALL|ANY|TABLES|SEQUENCES|FUNCTIONS|USAGE)\b/gi;
+
+function highlightSQL(code) {
+  // comments
+  code = code.replace(/(--.*$)/gm, '<span class="cm">$1</span>');
+  // strings
+  code = code.replace(/('[^']*')/g, '<span class="str">$1</span>');
+  // numbers
+  code = code.replace(/\b(\d+)\b/g, '<span class="num">$1</span>');
+  // keywords (skip inside spans)
+  code = code.replace(SQL_KEYWORDS, (m) => `<span class="kw">${m}</span>`);
+  return code;
+}
+
+function renderCodeBlock(lang, code) {
+  const escaped = escapeHtml(code.trim());
+  const lines = escaped.split('\n');
+  const lineNums = lines.map((_, i) => `<span>${i + 1}</span>`).join('');
+
+  let highlighted = escaped;
+  if (['sql', 'hcl', 'bash', 'yaml', 'json'].includes(lang)) {
+    // SQL-like 강조 (sql에만 적용, 나머지는 기본)
+    if (lang === 'sql') {
+      highlighted = highlightSQL(escaped);
+    }
+  }
+
+  const badge = lang ? `<span class="code-lang-badge">${lang}</span>` : '';
+  return `<div class="code-block-wrapper">${badge}<pre><div class="code-with-lines"><div class="code-lines">${lineNums}</div><div class="code-body">${highlighted}</div></div></pre></div>`;
+}
+
+function renderMarkdown(md) {
+  let html = md;
+
+  // [[]] → 보라색 텍스트 (링크 아님)
+  html = html.replace(/\[\[([^\]]+)\]\]/g, '<span class="wiki-ref">[[$1]]</span>');
+
+  // Mermaid 블록
+  html = html.replace(/```mermaid\n([\s\S]*?)```/g, (_, diagram) => {
+    return `<div class="mermaid">${diagram.trim()}</div>`;
+  });
+
+  // 코드 블록 (```lang ... ```) → 라인넘버 + 강조
+  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
+    return renderCodeBlock(lang, code);
+  });
+
+  // 인라인 코드
+  html = html.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+
+  // 테이블
+  html = html.replace(/((?:\|.*\|\n)+)/g, (table) => {
+    const rows = table.trim().split('\n');
+    if (rows.length < 2) return table;
+    let result = '<table>';
+    rows.forEach((row, i) => {
+      if (i === 1 && row.match(/^\|[\s\-:|]+\|$/)) return;
+      const tag = i === 0 ? 'th' : 'td';
+      const cells = row.split('|').filter((_, idx, arr) => idx > 0 && idx < arr.length - 1);
+      result += '<tr>' + cells.map(c => `<${tag}>${c.trim()}</${tag}>`).join('') + '</tr>';
+    });
+    result += '</table>';
+    return result;
+  });
+
+  // 헤딩
+  html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
+  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+  // 인용 블록
+  html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+
+  // 체크리스트
+  html = html.replace(/^- \[ \] (.+)$/gm, '<li>☐ $1</li>');
+  html = html.replace(/^- \[x\] (.+)$/gm, '<li>☑ $1</li>');
+
+  // 리스트
+  html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+  html = html.replace(/^(\d+)\. (.+)$/gm, '<li>$1. $2</li>');
+
+  // 볼드/이탤릭
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+  // 수평선
+  html = html.replace(/^---$/gm, '<hr>');
+
+  // 빈 줄 → 문단
+  html = html.replace(/\n\n/g, '</p><p>');
+
+  // 연속 blockquote 합치기
+  html = html.replace(/<\/blockquote>\s*<blockquote>/g, '<br>');
+
+  return `<p>${html}</p>`;
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// 문서 트리
+let allDocs = [];
+
+async function loadTree() {
+  const res = await fetch('/api/kb/tree');
+  const data = await res.json();
+  allDocs = data.tree;
+
+  const treeEl = document.getElementById('tree');
+
+  // 루트 문서 먼저
+  const rootDocs = data.tree.filter(d => !d.folder);
+  rootDocs.forEach(doc => {
+    const itemEl = document.createElement('div');
+    itemEl.className = 'doc-item';
+    itemEl.textContent = doc.name;
+    itemEl.dataset.path = doc.path;
+    itemEl.onclick = () => loadDocument(doc.path);
+    treeEl.appendChild(itemEl);
+  });
+
+  // 폴더별
+  const folders = [...new Set(data.tree.filter(d => d.folder).map(d => d.folder))];
+  folders.forEach(folder => {
+    const folderEl = document.createElement('div');
+    folderEl.className = 'folder-name';
+    folderEl.textContent = folder === 'standards' ? '📂 Standards' :
+                           folder === 'runbooks' ? '📂 Runbooks' : `📂 ${folder}`;
+    treeEl.appendChild(folderEl);
+
+    data.tree.filter(d => d.folder === folder).forEach(doc => {
+      const itemEl = document.createElement('div');
+      itemEl.className = 'doc-item sub';
+      itemEl.textContent = doc.name;
+      itemEl.dataset.path = doc.path;
+      itemEl.onclick = () => loadDocument(doc.path);
+      treeEl.appendChild(itemEl);
+    });
+  });
+}
+
+async function loadDocument(path) {
+  document.querySelectorAll('.doc-item').forEach(el => el.classList.remove('active'));
+  const activeEl = document.querySelector(`.doc-item[data-path="${path}"]`);
+  if (activeEl) activeEl.classList.add('active');
+
+  const contentEl = document.getElementById('content');
+  contentEl.className = 'content';
+  contentEl.innerHTML = '<div class="loading">로딩 중...</div>';
+
+  const res = await fetch(`/api/kb/document?path=${encodeURIComponent(path)}`);
+  const data = await res.json();
+  contentEl.innerHTML = renderMarkdown(data.content);
+
+  // Mermaid 렌더링
+  try {
+    await mermaid.run({ nodes: contentEl.querySelectorAll('.mermaid') });
+  } catch (e) {
+    console.warn('Mermaid render error:', e);
+  }
+}
+
+loadTree();
+</script>
+
+</body>
+</html>
