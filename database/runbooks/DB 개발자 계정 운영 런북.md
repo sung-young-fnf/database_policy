@@ -16,7 +16,7 @@
 | 소요시간 | 15분 |
 | 난이도 | 쉬움 |
 | 키워드 | `개발자 계정`, `_oper`, `SET ROLE`, `NOINHERIT`, `다중 스키마`, `developer_`, `DA#`, `도구 계정`, `_ops`, `_adm`, `접근 권한`, `DB 접근` |
-| 관련문서 | [[DB 계정 분리 규칙]], [[DB 계정 네이밍 규칙]], [[PostgreSQL Owner 관리 규칙]] |
+| 관련문서 | [[Database Platform Index]], [[DB 계정 분리 규칙]], [[DB 계정 네이밍 규칙]], [[PostgreSQL Owner 관리 규칙]] |
 
 개발자가 DB에 접근해야 할 때 적절한 계정을 발급하고 권한을 부여하는 절차를 다룬다. Oracle은 스키마 계정 또는 `_OPER` 계정을, PostgreSQL은 `_oper`(단일 스키마) 또는 `developer_`(다중 스키마, NOINHERIT) 계정을 사용한다. DA#/접근제어 도구는 Oracle에서 스키마 계정, PostgreSQL에서 `_adm` 계정을 사용한다. Object Owner 혼재 방지가 핵심 원칙이다.
 

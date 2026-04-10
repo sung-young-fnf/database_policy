@@ -11,7 +11,7 @@
 | 최종수정 | 2026-04-10 |
 | 문서ID | ST-DB-003 |
 | 키워드 | `Owner`, `Owner 분리`, `Owner 3단`, `object_owner_role`, `dml_role`, `_adm`, `NOLOGIN`, `SET ROLE`, `Role 체인`, `Schema Owner`, `Object Owner`, `public schema`, `Owner 혼재`, `PostgreSQL 권한` |
-| 관련문서 | [[DB 계정 분리 규칙]], [[DB 계정 네이밍 규칙]], [[PostgreSQL DB 계정 생성 런북]], [[DB 계정 정책 점검 런북]] |
+| 관련문서 | [[Database Platform Index]], [[DB 계정 분리 규칙]], [[DB 계정 네이밍 규칙]], [[PostgreSQL DB 계정 생성 런북]], [[DB 계정 정책 점검 런북]] |
 
 PostgreSQL에서 Database/Schema/Object의 소유권(Owner)을 3단 계층으로 분리하는 규칙을 정의한다. Owner 혼재 방지, NOLOGIN Role 원칙, SET ROLE 자동 설정, public schema 금지 등을 포함한다. 이 규칙은 **PostgreSQL 전용**이며, Oracle에는 Schema=User 구조로 Owner 분리 개념이 없다. 계정 유형은 [[DB 계정 분리 규칙]], 네이밍은 [[DB 계정 네이밍 규칙]] 참조.
 

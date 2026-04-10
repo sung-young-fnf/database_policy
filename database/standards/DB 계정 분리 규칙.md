@@ -11,7 +11,7 @@
 | 최종수정 | 2026-04-10 |
 | 문서ID | ST-DB-001 |
 | 키워드 | `DB 계정`, `계정 분리`, `서비스 계정`, `개발자 계정`, `읽기전용`, `DML`, `DDL`, `권한 분리`, `database account`, `account separation`, `_svc`, `_oper` |
-| 관련문서 | [[DB 계정 네이밍 규칙]], [[PostgreSQL Owner 관리 규칙]], [[Oracle DB 계정 생성 런북]], [[PostgreSQL DB 계정 생성 런북]] |
+| 관련문서 | [[Database Platform Index]], [[DB 계정 네이밍 규칙]], [[PostgreSQL Owner 관리 규칙]], [[Oracle DB 계정 생성 런북]], [[PostgreSQL DB 계정 생성 런북]] |
 
 DB 계정을 서비스(앱)/개발자/읽기전용 3종으로 분리하고, 서비스 계정에서 DDL 권한을 제거하는 규칙을 정의한다. 보안 진단 지적(서비스/개발자 계정 미분리, 서비스계정 DDL 보유)에 대한 대응 정책이다. 계정 이름 규칙은 [[DB 계정 네이밍 규칙]], PostgreSQL Owner 관리는 [[PostgreSQL Owner 관리 규칙]] 참조.
 
