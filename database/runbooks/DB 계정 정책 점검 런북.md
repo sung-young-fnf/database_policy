@@ -16,7 +16,7 @@
 | 소요시간 | 15분 |
 | 난이도 | 쉬움 |
 | 키워드 | `점검`, `policy check`, `Owner 점검`, `권한 미부여`, `스크립트 추출`, `Owner 혼재`, `pg_class`, `pg_roles`, `계정 점검`, `DB 점검`, `정기 점검` |
-| 관련문서 | [[DB 계정 분리 규칙]], [[PostgreSQL Owner 관리 규칙]], [[PostgreSQL DB 계정 생성 런북]] |
+| 관련문서 | [[Database Platform Index]], [[DB 계정 분리 규칙]], [[PostgreSQL Owner 관리 규칙]], [[PostgreSQL DB 계정 생성 런북]] |
 
 PostgreSQL DB의 계정/권한/Owner 현황을 점검하는 3가지 SQL 도구 모음. 분기별 정기 점검, 계정 생성/변경 후 검증, Owner 혼재 확인에 사용한다. 정상 상태의 기준은 [[DB 계정 분리 규칙]]과 [[PostgreSQL Owner 관리 규칙]] 참조.
 
@@ -389,4 +389,5 @@ ORDER BY database, schema, object_type, object_name;
 
 | 버전 | 일자 | 작성자 | 변경내용 |
 |-----|-----|-----|------|
-| v1.0 | 2026-04-10 | AI(claude-code) | 최초 작성 — 03-dbuser_policy_check.md에서 점검 스크립트 추출 |
+| v1.1 | 2026-04-13 | AI(claude-code) | 메타블록 관련문서에 [[Database Platform Index]] 추가 |
+| v1.0 | 2026-04-10 | AI(claude-code) | 최초 작성 |

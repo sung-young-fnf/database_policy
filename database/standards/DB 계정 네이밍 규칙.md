@@ -68,7 +68,7 @@ DB 계정 및 Role의 네이밍 규칙을 정의한다. Oracle(대문자)과 Pos
 | DBMS | 방식 | 설명 |
 |------|------|------|
 | Oracle 23ai+ | PL/SQL 블록 (ON SCHEMA) | 변수 2개(`v_schema`, `v_grantee`) 변경으로 27개 권한 일괄 부여 |
-| Oracle 19c- | `DDL_DML_ROLE` (Global ANY) | Role 1개에 29개 권한 번들, `GRANT DDL_DML_ROLE TO _OPER;` 1줄 |
+| Oracle 19c- | `DDL_DML_ROLE` (Global ANY) | Role 1개에 28개 권한 번들, `GRANT DDL_DML_ROLE TO _OPER;` 1줄 |
 | PostgreSQL | `object_owner_role` (NOLOGIN) | `SET ROLE`로 DDL 실행 → Object Owner 통일 |
 
 ## 문서ID 채번 규칙
@@ -95,6 +95,7 @@ DB 계정 및 Role의 네이밍 규칙을 정의한다. Oracle(대문자)과 Pos
 * > 구현 런북: [[Oracle DB 계정 생성 런북]] — Oracle 네이밍 적용 절차
 * > 구현 런북: [[PostgreSQL DB 계정 생성 런북]] — PostgreSQL 네이밍 적용 절차
 * > 관련: [[DB 개발자 계정 운영 런북]] — 개발자/도구 계정 네이밍 적용
+* > 관련: [[DB 계정 정책 점검 런북]] — 네이밍 규칙 준수 점검
 
 ---
 
@@ -102,4 +103,5 @@ DB 계정 및 Role의 네이밍 규칙을 정의한다. Oracle(대문자)과 Pos
 
 | 버전 | 일자 | 작성자 | 변경내용 |
 |-----|-----|-----|------|
-| v1.0 | 2026-04-10 | AI(claude-code) | 최초 작성 — 01-dbuser.md에서 네이밍 규칙 추출 |
+| v1.1 | 2026-04-13 | AI(claude-code) | 관련 문서에 [[DB 계정 정책 점검 런북]] 참조 추가 |
+| v1.0 | 2026-04-10 | AI(claude-code) | 최초 작성 |

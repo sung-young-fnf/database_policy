@@ -287,6 +287,8 @@ GRANT eas_object_owner_role TO eas_adm;
 * > 관련: [[DB 계정 분리 규칙]] — 계정 유형 구분 (서비스/개발자/읽기전용)
 * > 관련: [[DB 계정 네이밍 규칙]] — _oper/_ops/_adm/developer_ 이름 규칙
 * > 관련: [[PostgreSQL Owner 관리 규칙]] — NOINHERIT, SET ROLE, Owner 혼재 방지 기준
+* > 관련: [[Oracle DB 계정 생성 런북]] — Oracle 계정 생성 절차 (개발자 계정 포함)
+* > 관련: [[PostgreSQL DB 계정 생성 런북]] — PostgreSQL 계정 생성 절차 (개발자 계정 포함)
 
 ---
 
@@ -333,4 +335,5 @@ GRANT eas_object_owner_role TO eas_adm;
 
 | 버전 | 일자 | 작성자 | 변경내용 |
 |-----|-----|-----|------|
-| v1.0 | 2026-04-10 | AI(claude-code) | 최초 작성 — 02-dbuser_developer_guide.md에서 개발자/도구 계정 운영 가이드 추출 |
+| v1.1 | 2026-04-13 | AI(claude-code) | 관련 문서에 [[Oracle DB 계정 생성 런북]], [[PostgreSQL DB 계정 생성 런북]] 참조 추가 |
+| v1.0 | 2026-04-10 | AI(claude-code) | 최초 작성 |
