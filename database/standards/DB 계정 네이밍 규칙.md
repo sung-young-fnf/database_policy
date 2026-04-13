@@ -11,7 +11,7 @@
 | 최종수정 | 2026-04-10 |
 | 문서ID | ST-DB-002 |
 | 키워드 | `네이밍`, `naming`, `명명 규칙`, `_svc`, `_oper`, `_adm`, `_ops`, `object_owner_role`, `dml_role`, `DDL_DML_ROLE`, `OPER_TS`, `계정 이름`, `DB 네이밍` |
-| 관련문서 | [[Database Platform Index]], [[DB 계정 분리 규칙]], [[PostgreSQL Owner 관리 규칙]], [[Oracle DB 계정 생성 런북]], [[PostgreSQL DB 계정 생성 런북]] |
+| 관련문서 | [[DB 계정 분리 규칙]], [[PostgreSQL Owner 관리 규칙]], [[Oracle DB 계정 생성 런북]], [[PostgreSQL DB 계정 생성 런북]] |
 
 DB 계정 및 Role의 네이밍 규칙을 정의한다. Oracle(대문자)과 PostgreSQL(소문자)의 DBMS별 패턴, 접미사별 용도를 명시한다. 계정 유형(서비스/개발자/읽기전용)의 정의는 [[DB 계정 분리 규칙]] 참조.
 

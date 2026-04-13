@@ -9,7 +9,7 @@
 | 소유자 | @윤형도 |
 | 최종수정 | 2026-04-10 |
 | 문서ID | IX-DB-002 |
-| 키워드 | `의존성`, `영향도`, `Database`, `Oracle`, `PostgreSQL`, `RDS`, `장애 영향`, `서비스 관계`, `계정 분리`, `Owner` |
+| 키워드 | `의존성`, `영향도`, `Database`, `Oracle`, `PostgreSQL`, `RDS`, `장애 영향`, `서비스 관계`, `계정 분리`, `Owner`, `dependency`, `object_owner_role`, `dml_role`, `DDL_DML_ROLE` |
 | 관련문서 | [[Service Catalog]], [[Database Platform Index]] |
 
 Database 플랫폼 내 서비스 간 기술 의존성을 정의한다. DB 계정 변경/장애 시 영향 범위 파악, 계정 분리 작업의 영향도 분석에 활용한다.
@@ -76,5 +76,6 @@ Database 플랫폼 내 서비스 간 기술 의존성을 정의한다. DB 계정
 
 | 버전 | 일자 | 작성자 | 변경내용 |
 |-----|-----|-----|------|
+| v1.2 | 2026-04-13 | AI(claude-code) | 키워드 추가: dependency/object_owner_role/ dml_role/DDL_DML_ROLE |
 | v1.1 | 2026-04-13 | AI(claude-code) | 플랫폼 필드 수정 (IX-DB-001과 통일) |
 | v1.0 | 2026-04-10 | AI(claude-code) | 최초 작성 |

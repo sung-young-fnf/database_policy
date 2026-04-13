@@ -15,8 +15,8 @@
 | 트리거 | ITSM 서비스 요청 중 "Oracle DB 계정 생성/변경" 요청 |
 | 소요시간 | 30분 |
 | 난이도 | 보통 |
-| 키워드 | `Oracle`, `계정 생성`, `DDL_DML_ROLE`, `_OPER`, `PL/SQL`, `ON SCHEMA`, `19c`, `23ai`, `스키마 계정`, `개발자 계정`, `읽기전용`, `DB 계정`, `테이블스페이스`, `OPER_TS` |
-| 관련문서 | [[Database Platform Index]], [[DB 계정 분리 규칙]], [[DB 계정 네이밍 규칙]], [[DB 개발자 계정 운영 런북]] |
+| 키워드 | `Oracle`, `계정 생성`, `DDL_DML_ROLE`, `_OPER`, `PL/SQL`, `ON SCHEMA`, `19c`, `23ai`, `스키마 계정`, `개발자 계정`, `읽기전용`, `DB 계정`, `테이블스페이스`, `OPER_TS`, `RDS` |
+| 관련문서 | [[DB 계정 분리 규칙]], [[DB 계정 네이밍 규칙]], [[DB 개발자 계정 운영 런북]] |
 
 Oracle DB에서 스키마 계정(=서비스 계정), 개발자 계정(`_OPER`), 읽기전용 계정을 생성하는 런북. Oracle은 Schema = User 구조이므로 스키마 계정이 곧 서비스 계정이며 DDL을 자연 보유한다. 버전별로 19c(★4안: DDL_DML_ROLE)와 23ai(★5안: PL/SQL ON SCHEMA) 두 가지 절차를 제공한다. 계정 유형/권한 기준은 [[DB 계정 분리 규칙]], 네이밍은 [[DB 계정 네이밍 규칙]] 참조.
 
@@ -287,5 +287,6 @@ GRANT SELECT ANY DICTIONARY TO [읽기전용계정명];
 
 | 버전 | 일자 | 작성자 | 변경내용 |
 |-----|-----|-----|------|
-| v1.1 | 2026-04-13 | AI(claude-code) | 메타블록 관련문서에 [[Database Platform Index]] 추가 |
+| v1.2 | 2026-04-13 | AI(claude-code) | 키워드 추가: RDS |
+| v1.1 | 2026-04-13 | AI(claude-code) | 메타블록 관련문서에 [[Database Platform Index]] 제거 |
 | v1.0 | 2026-04-10 | AI(claude-code) | 최초 작성 |

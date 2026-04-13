@@ -9,12 +9,12 @@
 | 소유자 | @윤형도 |
 | 최종수정 | 2026-04-10 |
 | 문서ID | IX-DB-001 |
-| 키워드 | `Database`, `DB`, `Oracle`, `PostgreSQL`, `RDS`, `Aurora`, `계정`, `account`, `DDL`, `DML`, `Owner`, `_svc`, `_oper`, `_adm`, `계정 생성`, `계정 분리`, `개발자 계정`, `서비스 계정`, `DB 계정 생성 방법`, `DB 권한`, `DB 점검` |
+| 키워드 | `Database`, `DB`, `Oracle`, `PostgreSQL`, `RDS`, `Aurora`, `계정`, `account`, `DDL`, `DML`, `Owner`, `_svc`, `_oper`, `_adm`, `_ops`, `계정 생성`, `계정 분리`, `개발자 계정`, `서비스 계정`, `DB 계정 생성 방법`, `DB 권한`, `DB 점검` |
 | 관련문서 | [[Service Catalog]], [[Platform Index]] |
 
 Database(Oracle, PostgreSQL) 플랫폼 관련 모든 문서의 AI 진입점. DB 계정 생성, 계정 분리 규칙, 네이밍, Owner 관리, 개발자 계정, 정책 점검 등 사용자 질문의 키워드를 아래 라우팅 테이블과 매칭하여 적절한 문서로 이동한다.
 
-## 빠른 라우팅
+## 키워드 라우팅
 
 | 사용자 의도 (키워드) | 이동할 문서 | 대응레벨 |
 |--------------|--------|------|
@@ -62,4 +62,5 @@ Database(Oracle, PostgreSQL) 플랫폼 관련 모든 문서의 AI 진입점. DB 
 
 | 버전 | 일자 | 작성자 | 변경내용 |
 |-----|-----|-----|------|
+| v1.1 | 2026-04-13 | AI(claude-code) | 키워드 추가: _ops |
 | v1.0 | 2026-04-10 | AI(claude-code) | 최초 작성 — 표준 3개 + 런북 4개 + Dependencies 라우팅 |
