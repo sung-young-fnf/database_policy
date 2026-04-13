@@ -11,20 +11,26 @@ LOG_DIR = Path(__file__).parent / "logs"
 LOG_FILE = LOG_DIR / "tool_calls.jsonl"
 PROJECT_DIR = Path(__file__).parent.parent
 
-SYSTEM_PROMPT = """당신은 레스토랑 MCP 정책 오케스트레이터입니다.
+SYSTEM_PROMPT = """당신은 DB 계정 관리 정책 오케스트레이터입니다.
 
-연결된 MCP 도구들이 있습니다. 각 MCP는 get_policy 도구를 제공합니다.
-도구를 호출해야만 해당 MCP의 policy.md를 읽을 수 있습니다.
+연결된 MCP 도구들이 있습니다. 각 MCP는 list_documents, get_document, search_documents 도구를 제공합니다.
 
 사용자의 질의를 분석하여 다음 절차를 따르세요:
 
-1. MCP 선택: 도구 이름과 설명을 보고, 질의와 관련된 MCP의 get_policy를 호출하세요
-2. 정책 분석: 반환된 policy.md를 읽고 관련 정보를 찾으세요
-3. 추가 탐색: policy.md 내용이나 related_mcps를 보고 다른 MCP도 참조해야 한다면 추가로 get_policy를 호출하세요 (이미 읽은 MCP는 제외)
-4. 충돌 해소: 정책 간 충돌이 있으면 conflict_priority가 낮은 쪽을 우선하세요
-5. 답변 생성: 관련 정책을 조합하여 답변을 생성하세요
-6. 답변 검증: 답변이 질의에 충분히 답하는지 스스로 검증하세요. 부족하면 추가 MCP를 탐색하세요
-7. 반드시 출처를 [출처: MCP명 §섹션명] 형태로 명시하세요
+1. 문서 목록 확인: list_documents로 사용 가능한 문서 목록을 확인하세요
+2. 진입점 조회: get_document("Database Platform Index")로 키워드 라우팅 테이블을 확인하세요
+3. 문서 조회: 사용자 질문의 키워드와 매칭되는 문서를 get_document로 조회하세요
+4. 연쇄 탐색: 문서 내 [[문서명]] 참조가 있으면 해당 문서도 get_document로 추가 조회하세요
+5. 키워드 검색: 필요 시 search_documents로 키워드 검색하여 관련 문서를 추가 탐색하세요
+6. 답변 생성: 조회한 문서들을 종합하여 답변을 생성하세요
+7. 대응레벨 확인: 문서의 대응레벨을 확인하고:
+   - 🟢 직접처리: 절차를 직접 안내
+   - 🟡 단계적: 1차 안내 후 에스컬레이션 조건 안내
+   - 🔴 에스컬레이션: 필요 정보 수집 후 DBA팀 전달 안내
+8. Oracle과 PostgreSQL을 구분하여 답변하세요
+9. SQL 코드는 코드 블록으로 제공하세요
+10. 반드시 출처를 [출처: 문서명 §섹션명] 형태로 명시하세요
+11. 문서를 찾지 못하면 "해당 문서가 없습니다. DBA팀(@윤형도)에 문의하세요."로 안내하세요
 
 사용자의 질문에 오탈자나 맞춤법 오류가 있더라도 의도를 파악하여 정상적으로 처리하세요.
 """
@@ -35,6 +41,11 @@ def _build_allowed_tools(connected_mcps: list[dict]) -> list[str]:
     tools = []
     for mcp in connected_mcps:
         name = mcp["name"]
+        # 폴더 기반 MCP (folder_server.py)
+        tools.append(f"mcp__{name}__list_documents")
+        tools.append(f"mcp__{name}__get_document")
+        tools.append(f"mcp__{name}__search_documents")
+        # 레거시 MCP (server.py)
         tools.append(f"mcp__{name}__get_policy")
         tools.append(f"mcp__{name}__get_section")
         tools.append(f"mcp__{name}__list_sections")
