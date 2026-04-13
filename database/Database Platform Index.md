@@ -20,9 +20,9 @@ Database(Oracle, PostgreSQL) 플랫폼 관련 모든 문서의 AI 진입점. DB 
 |--------------|--------|------|
 | 계정 분리, 서비스 계정, DDL 제거, 권한 범위, 패스워드 | [[DB 계정 분리 규칙]] | - |
 | 네이밍, 이름 규칙, _svc, _oper, _adm, _ops | [[DB 계정 네이밍 규칙]] | - |
-| Owner, Owner 분리, object_owner_role, NOLOGIN, Role 체인, public schema | [[PostgreSQL Owner 관리 규칙]] | - |
-| Oracle, 계정 생성, 스키마 계정, DDL_DML_ROLE, 19c, 23ai, PL/SQL | [[Oracle DB 계정 생성 런북]] | 🔴 에스컬레이션 |
-| PostgreSQL, 계정 생성, _adm, _svc, SET ROLE, DEFAULT PRIVILEGES, Aurora | [[PostgreSQL DB 계정 생성 런북]] | 🔴 에스컬레이션 |
+| Owner, Owner 분리, object_owner_role, NOLOGIN, Role 체인, public schema, RENAME, 이름 변경 | [[PostgreSQL Owner 관리 규칙]] | - |
+| Oracle, 계정 생성, 스키마 계정, DDL_DML_ROLE, 19c, 23ai, PL/SQL, 읽기전용 | [[Oracle DB 계정 생성 런북]] | 🔴 에스컬레이션 |
+| PostgreSQL, 계정 생성, _adm, _svc, SET ROLE, DEFAULT PRIVILEGES, Aurora, 읽기전용, pg_read_all_data | [[PostgreSQL DB 계정 생성 런북]] | 🔴 에스컬레이션 |
 | 개발자 계정, 접근 권한, 다중 스키마, NOINHERIT, developer_, DA#, 도구 계정 | [[DB 개발자 계정 운영 런북]] | 🟡 단계적 |
 | 점검, Owner 혼재, 권한 미부여, 스크립트 추출, 정기 점검 | [[DB 계정 정책 점검 런북]] | 🟢 직접처리 |
 | 의존성, 장애 영향, 계정 변경 영향 | [[Database Service Dependencies]] | - |
@@ -62,5 +62,6 @@ Database(Oracle, PostgreSQL) 플랫폼 관련 모든 문서의 AI 진입점. DB 
 
 | 버전 | 일자 | 작성자 | 변경내용 |
 |-----|-----|-----|------|
+| v1.2 | 2026-04-13 | AI(claude-code) | 라우팅 키워드 추가: RENAME/이름 변경(ST-DB-003), 읽기전용/pg_read_all_data(RB-DB-001, RB-DB-002) |
 | v1.1 | 2026-04-13 | AI(claude-code) | 키워드 추가: _ops |
 | v1.0 | 2026-04-10 | AI(claude-code) | 최초 작성 — 표준 3개 + 런북 4개 + Dependencies 라우팅 |
