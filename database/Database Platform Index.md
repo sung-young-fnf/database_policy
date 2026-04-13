@@ -6,7 +6,7 @@
 | 플랫폼 | `Database` |
 | 유형 | 인덱스 |
 | 상태 | 초안 |
-| 소유자 | @최종현 |
+| 소유자 | @윤형도 |
 | 최종수정 | 2026-04-10 |
 | 문서ID | IX-DB-001 |
 | 키워드 | `Database`, `DB`, `Oracle`, `PostgreSQL`, `RDS`, `Aurora`, `계정`, `account`, `DDL`, `DML`, `Owner`, `_svc`, `_oper`, `_adm`, `계정 생성`, `계정 분리`, `개발자 계정`, `서비스 계정`, `DB 계정 생성 방법`, `DB 권한`, `DB 점검` |

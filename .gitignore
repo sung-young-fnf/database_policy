@@ -1,0 +1,28 @@
+# 원본 데이터 (KB 문서의 소스)
+01-dbuser.md
+01report.md
+02-dbuser_developer_guide.md
+02report.md
+03-dbuser_policy_check.md
+03report.md
+dbuser_account_policy_report.html
+
+# KB 템플릿/가이드
+kb-guide.md
+dependencies-template.md
+platform-index-template.md
+runbook-template.md
+standard-template.md
+
+# 작업 관리
+TASKS.md
+
+# Python
+__pycache__/
+*.pyc
+
+# 로그
+dashboard/logs/
+
+# 레거시
+mcp-server/main.py
