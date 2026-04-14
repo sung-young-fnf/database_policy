@@ -18,7 +18,7 @@
 | 키워드 | `개발자 계정`, `_oper`, `_OPER`, `SET ROLE`, `NOINHERIT`, `INHERIT`, `다중 스키마`, `developer_`, `DA#`, `도구 계정`, `_ops`, `_adm`, `접근 권한`, `DB 접근`, `Owner 혼재` |
 | 관련문서 | [[DB 계정 분리 규칙]], [[DB 계정 네이밍 규칙]], [[PostgreSQL Owner 관리 규칙]] |
 
-개발자가 DB에 접근해야 할 때 적절한 계정을 발급하고 권한을 부여하는 절차를 다룬다. Oracle은 스키마 계정 또는 `_OPER` 계정을, PostgreSQL은 `_oper`(단일 스키마) 또는 `developer_`(다중 스키마, NOINHERIT) 계정을 사용한다. DA#/접근제어 도구는 Oracle에서 스키마 계정, PostgreSQL에서 `_adm` 계정을 사용한다. Object Owner 혼재 방지가 핵심 원칙이다.
+개발자가 DB 접근 권한을 요청했을 때 **어떤 유형의 계정을 생성해야 하는지 판단**하고, 생성된 계정의 **사용 방법을 안내**하는 가이드. 실제 계정 생성 SQL은 [[Oracle DB 계정 생성 런북]] 또는 [[PostgreSQL DB 계정 생성 런북]] 참조. Object Owner 혼재 방지가 핵심 원칙이다.
 
 ## 배경
 
@@ -42,7 +42,7 @@
 | 역할  | 담당팀 | 책임 범위 |
 |-----|-----|-------|
 | 요청자 | 개발팀 | DB 접근 권한 요청서 작성 (부서/서비스명, DBMS 유형, 접근 대상 스키마 명시) |
-| DBA | DBA팀 | 계정 생성, 권한 부여, SET ROLE 설정, Owner 점검 |
+| DBA | DBA팀 | 케이스 판단, 계정 생성 런북(RB-DB-001/002) 연계 실행, 사용 방법 안내, Owner 점검 |
 | 승인자 | 팀장/보안팀 | 다중 스키마 접근 또는 도구 계정 요청 시 승인 |
 
 ## Workflow
@@ -54,19 +54,20 @@ sequenceDiagram
     participant Appr as 승인자
 
     Dev->>DBA: DB 접근 권한 요청
+    DBA->>DBA: 케이스 판단 (단일/다중/도구)
     alt 단일 스키마
-        DBA->>DBA: 계정 발급
+        DBA->>DBA: 계정 생성 런북(RB-001/002) 실행
     else 다중 스키마
         DBA->>Appr: 승인 요청
         Appr-->>DBA: 승인
-        DBA->>DBA: OPER 또는 developer 발급
+        DBA->>DBA: 계정 생성 런북 실행 + developer_ 설정
     else 도구 계정
         DBA->>Appr: 승인 요청
         Appr-->>DBA: 승인
-        DBA->>DBA: adm 발급
+        DBA->>DBA: 계정 생성 런북 실행 (adm/스키마 계정)
     end
     DBA->>DBA: Owner 점검
-    DBA->>Dev: 계정 정보 전달
+    DBA->>Dev: 계정 정보 + 사용 방법 안내
 ```
 
 ## 사전 조건
@@ -276,6 +277,7 @@ RESET ROLE;
 
 | 버전 | 일자 | 작성자 | 변경내용 |
 |-----|-----|-----|------|
+| v1.4 | 2026-04-14 | AI(claude-code) | 역할 명확화 — 요약문/역할 정의/Workflow를 "케이스 판단 + 안내" 역할로 수정. 계정 생성은 RB-DB-001/002 연계 |
 | v1.3 | 2026-04-14 | AI(claude-code) | 중복 SQL 제거 — Oracle 19c/23ai, PG _oper/_adm 생성 SQL을 RB-DB-001/002 참조로 대체. developer_ NOINHERIT SQL만 유지 |
 | v1.2 | 2026-04-13 | AI(claude-code) | 키워드 추가: _OPER/INHERIT/Owner 혼재 |
 | v1.1 | 2026-04-13 | AI(claude-code) | 관련 문서에 [[Oracle DB 계정 생성 런북]], [[PostgreSQL DB 계정 생성 런북]] 참조 추가 |
