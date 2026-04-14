@@ -52,40 +52,54 @@ def _build_allowed_tools(connected_mcps: list[dict]) -> list[str]:
     return tools
 
 
-def _parse_hook_logs(start_time: float) -> list[dict]:
-    """hook이 기록한 로그에서 start_time 이후 항목을 읽어 reasoning_steps로 변환"""
+def _parse_hook_logs(start_time: float) -> tuple[list[dict], dict]:
+    """hook이 기록한 로그에서 start_time 이후 항목을 읽어 reasoning_steps + doc_stats로 변환"""
     steps = []
+    doc_stats: dict[str, Any] = {
+        "total_reads": 0,
+        "unique_docs": 0,
+        "duplicate_reads": 0,
+        "documents": {},
+        "search_count": 0,
+        "get_document_count": 0,
+        "list_documents_count": 0,
+    }
+
     if not LOG_FILE.exists():
-        return steps
+        return steps, doc_stats
 
     step_number = 0
-    seen = set()
     with open(LOG_FILE, "r", encoding="utf-8") as f:
         for line in f:
             try:
                 entry = json.loads(line.strip())
-                # start_time 이후 로그만 수집
                 if entry.get("timestamp", 0) < start_time:
                     continue
-                # PreToolUse만 STEP으로 표시 (PostToolUse는 중복 방지)
                 if entry.get("event") != "PreToolUse":
                     continue
 
                 mcp_name = entry.get("mcp_name", "unknown")
                 action = entry.get("action", "unknown")
-                key = f"{mcp_name}_{action}"
-                if key in seen:
-                    continue
-                seen.add(key)
+                tool_input = entry.get("tool_input", {})
 
                 step_number += 1
+
+                # 액션별 설명 생성
                 if action == "get_policy":
                     desc = f"{mcp_name} 정책 조회"
                 elif action == "get_section":
-                    section = entry.get("tool_input", {}).get("section_name", "")
+                    section = tool_input.get("section_name", "")
                     desc = f"{mcp_name} §{section} 조회"
                 elif action == "list_sections":
                     desc = f"{mcp_name} 섹션 목록 조회"
+                elif action == "get_document":
+                    doc_name = tool_input.get("document_name", "알 수 없음")
+                    desc = f"문서 조회: {doc_name}"
+                elif action == "search_documents":
+                    keyword = tool_input.get("keyword", "")
+                    desc = f"키워드 검색: {keyword}"
+                elif action == "list_documents":
+                    desc = f"{mcp_name} 문서 목록 조회"
                 else:
                     desc = f"{mcp_name} → {action}"
 
@@ -95,10 +109,35 @@ def _parse_hook_logs(start_time: float) -> list[dict]:
                     "detail": f"도구: {entry.get('tool_name', '')}",
                     "status": "completed",
                 })
+
+                # 문서 열람 통계 수집
+                if action == "get_document":
+                    doc_name = tool_input.get("document_name", "알 수 없음")
+                    doc_stats["get_document_count"] += 1
+                    doc_stats["total_reads"] += 1
+                    if doc_name in doc_stats["documents"]:
+                        doc_stats["documents"][doc_name]["count"] += 1
+                        doc_stats["documents"][doc_name]["steps"].append(step_number)
+                    else:
+                        doc_stats["documents"][doc_name] = {
+                            "count": 1,
+                            "steps": [step_number],
+                        }
+                elif action == "search_documents":
+                    doc_stats["search_count"] += 1
+                elif action == "list_documents":
+                    doc_stats["list_documents_count"] += 1
+
             except json.JSONDecodeError:
                 continue
 
-    return steps
+    # 통계 계산
+    doc_stats["unique_docs"] = len(doc_stats["documents"])
+    doc_stats["duplicate_reads"] = sum(
+        d["count"] - 1 for d in doc_stats["documents"].values() if d["count"] > 1
+    )
+
+    return steps, doc_stats
 
 
 async def process_query(
@@ -164,8 +203,8 @@ async def process_query(
     except Exception as e:
         answer = f"오류: {str(e)}"
 
-    # hook 로그에서 추론 과정 수집
-    reasoning_steps = _parse_hook_logs(start_time)
+    # hook 로그에서 추론 과정 + 문서 열람 통계 수집
+    reasoning_steps, doc_stats = _parse_hook_logs(start_time)
 
     # 로그가 없으면 기본 STEP 추가
     if not reasoning_steps:
@@ -185,6 +224,7 @@ async def process_query(
         "answer": answer,
         "sources": sources,
         "reasoning_steps": reasoning_steps,
+        "doc_stats": doc_stats,
         "duration_ms": duration_ms,
         "session_id": session_id,
     }

@@ -94,17 +94,9 @@ sequenceDiagram
 
 #### PostgreSQL
 
-`_oper` 계정 발급. DBA가 SET ROLE을 자동 설정하므로 개발자는 접속만 하면 됨.
+`_oper` 계정 발급. DBA가 SET ROLE을 자동 설정하므로 개발자는 접속만 하면 됨. 접속 즉시 `object_owner_role`로 동작하여 Object Owner가 항상 NOLOGIN Role로 통일된다.
 
-```sql
--- _oper 계정 생성
-CREATE USER insa_oper WITH PASSWORD '[패스워드]';
-GRANT insa_object_owner_role TO insa_oper;
-GRANT CONNECT ON DATABASE insa_db TO insa_oper;
-ALTER USER insa_oper SET role TO insa_object_owner_role;
-```
-
-> 접속 즉시 `object_owner_role`로 동작하여 Object Owner가 항상 NOLOGIN Role로 통일된다.
+> 생성 SQL: [[PostgreSQL DB 계정 생성 런북]] Step 1 참조
 
 ---
 
@@ -116,66 +108,22 @@ ALTER USER insa_oper SET role TO insa_object_owner_role;
 
 `DDL_DML_ROLE`이 Global ANY(PDB 전체)이므로 스키마별로 나눠봐야 의미 없음. **파트(팀) 단위로 1개 `_OPER` 생성**.
 
-```sql
-CREATE TABLESPACE OPER_TS DATAFILE SIZE 1M AUTOEXTEND OFF;  -- PDB 내 최초 1회
-
-CREATE USER EAS_OPER
-  IDENTIFIED BY "EasOper2026!@#$"
-  DEFAULT TABLESPACE OPER_TS
-  TEMPORARY TABLESPACE TEMP;
-
-GRANT CONNECT TO EAS_OPER;
-GRANT DDL_DML_ROLE TO EAS_OPER;  -- 이 1줄이면 끝
-
-ALTER USER EAS_OPER QUOTA UNLIMITED ON SMARTBILL_TS;
-ALTER USER EAS_OPER QUOTA UNLIMITED ON PATUAH_TS;
-ALTER USER EAS_OPER QUOTA UNLIMITED ON EAS_TS;
-```
+> 생성 SQL: [[Oracle DB 계정 생성 런북]] Step 3~4 참조
+> 예시: `EAS_OPER` 1개로 SMARTBILL, PATUAH, EAS 3개 스키마 접근. 각 서비스 TS에 QUOTA UNLIMITED 부여.
 
 #### Oracle 23ai (★5안)
 
 `ON SCHEMA`로 스키마 단위 권한 부여 가능. 스키마별 `_OPER` 생성.
 
-```sql
-CREATE USER INSA_OPER
-  IDENTIFIED BY "InsaOper2026!@#$"
-  DEFAULT TABLESPACE INSA_TS
-  TEMPORARY TABLESPACE TEMP;
-
-GRANT CONNECT TO INSA_OPER;
-ALTER USER INSA_OPER QUOTA UNLIMITED ON INSA_TS;
-
--- PL/SQL 블록으로 ON SCHEMA DDL+DML 일괄 부여 (변수 2개만 변경)
-DECLARE
-    v_schema  VARCHAR2(30) := 'INSA';
-    v_grantee VARCHAR2(30) := 'INSA_OPER';
-    TYPE t_privs IS TABLE OF VARCHAR2(50);
-    v_privs t_privs := t_privs(
-        'SELECT ANY TABLE','INSERT ANY TABLE','UPDATE ANY TABLE','DELETE ANY TABLE',
-        'CREATE ANY TABLE','ALTER ANY TABLE','DROP ANY TABLE','COMMENT ANY TABLE',
-        'CREATE ANY INDEX','ALTER ANY INDEX','DROP ANY INDEX',
-        'SELECT ANY SEQUENCE','CREATE ANY SEQUENCE','ALTER ANY SEQUENCE','DROP ANY SEQUENCE',
-        'CREATE ANY VIEW','DROP ANY VIEW',
-        'CREATE ANY PROCEDURE','ALTER ANY PROCEDURE','DROP ANY PROCEDURE',
-        'EXECUTE ANY PROCEDURE','DEBUG ANY PROCEDURE',
-        'CREATE ANY TRIGGER','DROP ANY TRIGGER',
-        'CREATE ANY TYPE','DROP ANY TYPE',
-        'GRANT ANY OBJECT PRIVILEGE'
-    );
-BEGIN
-    FOR i IN 1..v_privs.COUNT LOOP
-        EXECUTE IMMEDIATE 'GRANT ' || v_privs(i) || ' ON SCHEMA ' || v_schema || ' TO ' || v_grantee;
-    END LOOP;
-    EXECUTE IMMEDIATE 'GRANT DEBUG CONNECT SESSION TO ' || v_grantee;
-END;
-/
-```
+> 생성 SQL: [[Oracle DB 계정 생성 런북]] Step 2 참조
+> 예시: `INSA_OPER`에 INSA 스키마 ON SCHEMA 권한 부여. 다른 스키마 추가 시 PL/SQL 블록 재실행.
 
 #### PostgreSQL (NOINHERIT + 수동 SET ROLE)
 
 기본 `_oper`는 1개 스키마만 자동 설정. 여러 스키마 접근 시 **`developer_` 계정을 NOINHERIT으로** 별도 생성.
 
 ```sql
+-- developer_ 계정은 NOINHERIT으로 생성 (다중 스키마 전용)
 CREATE USER developer_eas WITH PASSWORD '[패스워드]' NOINHERIT;
 
 GRANT smartbill_object_owner_role TO developer_eas;
@@ -184,6 +132,8 @@ GRANT eas_object_owner_role TO developer_eas;
 
 GRANT CONNECT ON DATABASE easdb TO developer_eas;
 ```
+
+> `developer_` 계정은 RB-DB-002에 없는 **다중 스키마 전용 패턴**이므로 여기에만 존재.
 
 **NOINHERIT vs INHERIT 비교표**:
 
@@ -225,16 +175,7 @@ RESET ROLE;
 
 `_adm` 계정 사용. INHERIT이므로 SET ROLE 없이 `object_owner_role` 소유 객체 관리 가능.
 
-```sql
-CREATE USER eas_adm WITH PASSWORD '[패스워드]';
-GRANT eas_adm TO fnfadm;
-CREATE DATABASE easdb WITH OWNER eas_adm ENCODING = 'UTF8';
-
-GRANT smartbill_object_owner_role TO eas_adm;
-GRANT patuah_object_owner_role TO eas_adm;
-GRANT eas_object_owner_role TO eas_adm;
-```
-
+> 생성 SQL: [[PostgreSQL DB 계정 생성 런북]] Step 1 참조
 > `_adm`에는 `ALTER USER SET role` 설정하지 않음. 역방향 GRANT(`_adm`을 `object_owner_role`에 부여)는 금지.
 
 **PostgreSQL 계정 역할 요약**:
@@ -335,6 +276,7 @@ GRANT eas_object_owner_role TO eas_adm;
 
 | 버전 | 일자 | 작성자 | 변경내용 |
 |-----|-----|-----|------|
+| v1.3 | 2026-04-14 | AI(claude-code) | 중복 SQL 제거 — Oracle 19c/23ai, PG _oper/_adm 생성 SQL을 RB-DB-001/002 참조로 대체. developer_ NOINHERIT SQL만 유지 |
 | v1.2 | 2026-04-13 | AI(claude-code) | 키워드 추가: _OPER/INHERIT/Owner 혼재 |
 | v1.1 | 2026-04-13 | AI(claude-code) | 관련 문서에 [[Oracle DB 계정 생성 런북]], [[PostgreSQL DB 계정 생성 런북]] 참조 추가 |
 | v1.0 | 2026-04-10 | AI(claude-code) | 최초 작성 |

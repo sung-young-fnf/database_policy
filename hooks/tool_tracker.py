@@ -5,10 +5,14 @@ Claude CLI가 MCP 도구를 호출할 때마다 이 스크립트가 실행되어
 대시보드가 이 로그를 읽어 UI에 STEP으로 표시한다.
 """
 
+import io
 import json
 import sys
 import time
 from pathlib import Path
+
+# Windows에서 stdin을 UTF-8로 강제 설정 (한글 인코딩 깨짐 방지)
+sys.stdin = io.TextIOWrapper(sys.stdin.buffer, encoding="utf-8")
 
 LOG_FILE = Path(__file__).parent.parent / "dashboard" / "logs" / "tool_calls.jsonl"
 LOG_FILE.parent.mkdir(exist_ok=True)

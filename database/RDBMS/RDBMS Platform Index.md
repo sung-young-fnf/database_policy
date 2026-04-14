@@ -9,7 +9,7 @@
 | 소유자 | @윤형도 |
 | 최종수정 | 2026-04-10 |
 | 문서ID | IX-DB-001 |
-| 키워드 | `Database`, `데이터베이스`, `DB`, `Oracle`, `PostgreSQL`, `PG`, `RDS`, `Aurora`, `계정`, `account`, `database account`, `DDL`, `DML`, `Owner`, `_svc`, `_oper`, `_adm`, `_ops`, `계정 생성`, `DB 계정 만들기`, `계정 분리`, `개발자 계정`, `서비스 계정`, `DB 계정 생성 방법`, `DB 권한`, `DB 점검`,   |
+| 키워드 | `Database`, `데이터베이스`, `DB`, `Oracle`, `PostgreSQL`, `PG`, `RDS`, `Aurora`,`database account`, `DDL`, `DML`, `Owner`, `_svc`, `_oper`, `_adm`, `_ops`, `DB 계정 만들기`, `계정 분리`, `개발자 계정`, `서비스 계정`, `DB 계정 생성 방법`, `DB 권한`, `DB 점검`,   |
 | 관련문서 | [[Service Catalog]], [[Platform Index]] |
 
 Database(Oracle, PostgreSQL) 플랫폼 관련 모든 문서의 AI 진입점. DB 계정 생성, 계정 분리 규칙, 네이밍, Owner 관리, 개발자 계정, 정책 점검 등 사용자 질문의 키워드를 아래 라우팅 테이블과 매칭하여 적절한 문서로 이동한다.
