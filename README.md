@@ -35,7 +35,7 @@ policy_agent/
 │   └── runbooks/
 │       ├── Oracle DB 계정 생성 런북.md     ← RB-DB-001
 │       ├── PostgreSQL DB 계정 생성 런북.md ← RB-DB-002
-│       ├── DB 개발자 계정 운영 런북.md     ← RB-DB-003
+│       ├── DB 개발자 계정 요청 대응 런북.md     ← RB-DB-003
 │       └── DB 계정 정책 점검 런북.md       ← RB-DB-004
 ├── hooks/
 │   └── tool_tracker.py      # Hook: MCP 도구 호출 추적
@@ -60,7 +60,7 @@ policy_agent/
 |------|--------|---------|------|
 | Oracle DB 계정 생성 런북 | RB-DB-001 | 🔴 | 23ai PL/SQL ON SCHEMA + 19c DDL_DML_ROLE |
 | PostgreSQL DB 계정 생성 런북 | RB-DB-002 | 🔴 | Owner 3단 분리 생성 절차 |
-| DB 개발자 계정 운영 런북 | RB-DB-003 | 🟡 | 단일/다중 스키마, NOINHERIT, DA# |
+| DB 개발자 계정 요청 대응 런북 | RB-DB-003 | 🟡 | 단일/다중 스키마, NOINHERIT, DA# |
 | DB 계정 정책 점검 런북 | RB-DB-004 | 🟢 | 스크립트 추출, Owner 혼재 점검 SQL |
 
 ## 설치

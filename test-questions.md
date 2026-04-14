@@ -153,7 +153,7 @@
 **기대 탐색 경로**:
 1. `list_documents` → 문서 목록 확인
 2. `get_document("Database Platform Index")` → "개발자, 다중 스키마" 매칭
-3. `get_document("DB 개발자 계정 운영 런북")` → 다중 스키마 케이스 확인
+3. `get_document("DB 개발자 계정 요청 대응 런북")` → 다중 스키마 케이스 확인
 4. `get_document("PostgreSQL Owner 관리 규칙")` → [[]] 참조로 NOINHERIT/Owner 원칙
 
 ---
@@ -174,7 +174,7 @@
 **기대 탐색 경로**:
 1. `list_documents` → 문서 목록 확인
 2. `get_document("Database Platform Index")` → "도구, DA#" 매칭
-3. `get_document("DB 개발자 계정 운영 런북")` → DA# 도구 계정 섹션 확인
+3. `get_document("DB 개발자 계정 요청 대응 런북")` → DA# 도구 계정 섹션 확인
 4. `get_document("DB 계정 분리 규칙")` → [[]] 참조로 계정 유형 확인
 
 ---
@@ -266,7 +266,7 @@
 1. `list_documents` → 문서 목록 확인
 2. `get_document("Database Platform Index")` → "서비스 계정, DDL" 매칭
 3. `get_document("DB 계정 분리 규칙")` → 서비스 계정 예외 정책 확인
-4. `get_document("DB 개발자 계정 운영 런북")` → [[]] 참조로 _ops 계정 안내
+4. `get_document("DB 개발자 계정 요청 대응 런북")` → [[]] 참조로 _ops 계정 안내
 
 ---
 
@@ -378,7 +378,7 @@
 1. `list_documents` → 문서 목록 확인
 2. `get_document("Database Platform Index")` → "계정 생성, PostgreSQL" 매칭
 3. `get_document("PostgreSQL DB 계정 생성 런북")` → 생성 절차
-4. `get_document("DB 개발자 계정 운영 런북")` → [[]] 참조로 다중 스키마 개발자
+4. `get_document("DB 개발자 계정 요청 대응 런북")` → [[]] 참조로 다중 스키마 개발자
 5. `get_document("DB 계정 네이밍 규칙")` → [[]] 참조로 네이밍 확인
 6. `get_document("PostgreSQL Owner 관리 규칙")` → [[]] 참조로 Owner 규칙
 
@@ -413,7 +413,7 @@
 | PostgreSQL Owner 관리 규칙 (ST-DB-003) | TC-06, TC-07, TC-17, TC-18 |
 | Oracle DB 계정 생성 런북 (RB-DB-001) | TC-02, TC-03, TC-09 |
 | PostgreSQL DB 계정 생성 런북 (RB-DB-002) | TC-01, TC-09, TC-17, TC-19, TC-20 |
-| DB 개발자 계정 운영 런북 (RB-DB-003) | TC-07, TC-08, TC-13, TC-19 |
+| DB 개발자 계정 요청 대응 런북 (RB-DB-003) | TC-07, TC-08, TC-13, TC-19 |
 | DB 계정 정책 점검 런북 (RB-DB-004) | TC-11, TC-12, TC-16 |
 
 ---

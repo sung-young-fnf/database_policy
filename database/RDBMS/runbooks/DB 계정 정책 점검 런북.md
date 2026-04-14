@@ -16,7 +16,7 @@
 | 소요시간 | 15분 |
 | 난이도 | 쉬움 |
 | 키워드 | `점검`, `policy check`, `Owner 점검`, `권한 미부여`, `스크립트 추출`, `Owner 혼재`, `pg_class`, `pg_roles`, `계정 점검`, `DB 점검`, `정기 점검`, `PostgreSQL`, `마이그레이션`, `권한 추출` |
-| 관련문서 | [[DB 계정 분리 규칙]], [[PostgreSQL Owner 관리 규칙]], [[PostgreSQL DB 계정 생성 런북]] |
+| 관련문서 | [[DB 계정 분리 규칙]], [[PostgreSQL Owner 관리 규칙]], [[PostgreSQL DB 계정 생성 런북]], [[DB 개발자 계정 요청 대응 런북]] |
 
 PostgreSQL DB의 계정/권한/Owner 현황을 점검하는 3가지 SQL 도구 모음. 분기별 정기 점검, 계정 생성/변경 후 검증, Owner 혼재 확인에 사용한다. 정상 상태의 기준은 [[DB 계정 분리 규칙]]과 [[PostgreSQL Owner 관리 규칙]] 참조.
 
@@ -363,7 +363,7 @@ ORDER BY database, schema, object_type, object_name;
 
 | 증상/에러 | 원인 | 해결 |
 |-------|-----|-----|
-| Object Owner가 개인 계정(`developer_xxx`)으로 되어있음 | INHERIT 계정이 SET ROLE 없이 DDL 실행 | Owner를 `_object_owner_role`로 변경 후, [[DB 개발자 계정 운영 런북]] 참조하여 NOINHERIT 적용 |
+| Object Owner가 개인 계정(`developer_xxx`)으로 되어있음 | INHERIT 계정이 SET ROLE 없이 DDL 실행 | Owner를 `_object_owner_role`로 변경 후, [[DB 개발자 계정 요청 대응 런북]] 참조하여 NOINHERIT 적용 |
 | Object Owner가 `postgres`/`fnfadm`으로 되어있음 | 마스터 계정으로 DDL 실행 | Owner를 `_object_owner_role`로 변경. 마스터 계정은 Instance 레벨 전용 — [[PostgreSQL Owner 관리 규칙]] 참조 |
 | Step 1 스크립트가 빈 결과 | 계정명 오타 또는 존재하지 않는 계정 | `SELECT rolname FROM pg_roles WHERE rolname = '{계정명}';`으로 확인 |
 | Step 2에서 대량 미부여 발견 | DEFAULT PRIVILEGES 미설정 | [[PostgreSQL DB 계정 생성 런북]]의 DEFAULT PRIVILEGES 설정 참조 |
@@ -381,7 +381,7 @@ ORDER BY database, schema, object_type, object_name;
 * > 관련: [[DB 계정 분리 규칙]] — 정책 기준 (정상 상태 정의)
 * > 관련: [[PostgreSQL Owner 관리 규칙]] — Owner 3단 분리 기준
 * > 관련: [[PostgreSQL DB 계정 생성 런북]] — Owner 정리 후 재설정 시
-* > 관련: [[DB 개발자 계정 운영 런북]] — Owner 혼재 원인 파악 시 (NOINHERIT/SET ROLE)
+* > 관련: [[DB 개발자 계정 요청 대응 런북]] — Owner 혼재 원인 파악 시 (NOINHERIT/SET ROLE)
 
 ---
 

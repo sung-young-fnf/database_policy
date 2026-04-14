@@ -23,7 +23,7 @@ Database(Oracle, PostgreSQL) 플랫폼 관련 모든 문서의 AI 진입점. DB 
 | Owner, Owner 분리, object_owner_role, NOLOGIN, Role 체인, public schema, RENAME, 이름 변경 | [[PostgreSQL Owner 관리 규칙]] | - |
 | Oracle, 계정 생성, 스키마 계정, DDL_DML_ROLE, 19c, 23ai, PL/SQL, 읽기전용 | [[Oracle DB 계정 생성 런북]] | 🔴 에스컬레이션 |
 | PostgreSQL, 계정 생성, _adm, _svc, SET ROLE, DEFAULT PRIVILEGES, Aurora, 읽기전용, pg_read_all_data | [[PostgreSQL DB 계정 생성 런북]] | 🔴 에스컬레이션 |
-| 개발자 계정, 접근 권한, 다중 스키마, NOINHERIT, developer_, DA#, 도구 계정 | [[DB 개발자 계정 운영 런북]] | 🟡 단계적 |
+| 개발자 계정, 접근 권한, 다중 스키마, NOINHERIT, developer_, DA#, 도구 계정 | [[DB 개발자 계정 요청 대응 런북]] | 🟡 단계적 |
 | 점검, Owner 혼재, 권한 미부여, 스크립트 추출, 정기 점검 | [[DB 계정 정책 점검 런북]] | 🟢 직접처리 |
 | 의존성, 장애 영향, 계정 변경 영향 | [[RDBMS Service Dependencies]] | - |
 
@@ -43,7 +43,7 @@ Database(Oracle, PostgreSQL) 플랫폼 관련 모든 문서의 AI 진입점. DB 
 |-----|-----|------|-----|
 | [[Oracle DB 계정 생성 런북]] | Oracle | 🔴 에스컬레이션 | 23ai(★5안) PL/SQL ON SCHEMA + 19c(★4안) DDL_DML_ROLE |
 | [[PostgreSQL DB 계정 생성 런북]] | PostgreSQL | 🔴 에스컬레이션 | Owner 3단 분리, Instance→Database→서비스 계정 순서 |
-| [[DB 개발자 계정 운영 런북]] | Oracle, PostgreSQL | 🟡 단계적 | 단일/다중 스키마, NOINHERIT, DA# 도구 계정 |
+| [[DB 개발자 계정 요청 대응 런북]] | Oracle, PostgreSQL | 🟡 단계적 | 단일/다중 스키마, NOINHERIT, DA# 도구 계정 |
 | [[DB 계정 정책 점검 런북]] | PostgreSQL | 🟢 직접처리 | 스크립트 추출, 권한 미부여, Owner 혼재 점검 SQL |
 
 ## 서비스 정보

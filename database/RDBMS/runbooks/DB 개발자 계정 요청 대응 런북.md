@@ -1,4 +1,4 @@
-# DB 개발자 계정 운영 런북
+# DB 개발자 계정 요청 대응 런북
 
 | 필드  | 값   |
 |-----|-----|
@@ -16,7 +16,7 @@
 | 소요시간 | 15분 |
 | 난이도 | 쉬움 |
 | 키워드 | `개발자 계정`, `_oper`, `_OPER`, `SET ROLE`, `NOINHERIT`, `INHERIT`, `다중 스키마`, `developer_`, `DA#`, `도구 계정`, `_ops`, `_adm`, `접근 권한`, `DB 접근`, `Owner 혼재` |
-| 관련문서 | [[DB 계정 분리 규칙]], [[DB 계정 네이밍 규칙]], [[PostgreSQL Owner 관리 규칙]] |
+| 관련문서 | [[DB 계정 분리 규칙]], [[DB 계정 네이밍 규칙]], [[PostgreSQL Owner 관리 규칙]], [[Oracle DB 계정 생성 런북]], [[PostgreSQL DB 계정 생성 런북]] |
 
 개발자가 DB 접근 권한을 요청했을 때 **어떤 유형의 계정을 생성해야 하는지 판단**하고, 생성된 계정의 **사용 방법을 안내**하는 가이드. 실제 계정 생성 SQL은 [[Oracle DB 계정 생성 런북]] 또는 [[PostgreSQL DB 계정 생성 런북]] 참조. Object Owner 혼재 방지가 핵심 원칙이다.
 
@@ -277,8 +277,8 @@ RESET ROLE;
 
 | 버전 | 일자 | 작성자 | 변경내용 |
 |-----|-----|-----|------|
-| v1.4 | 2026-04-14 | AI(claude-code) | 역할 명확화 — 요약문/역할 정의/Workflow를 "케이스 판단 + 안내" 역할로 수정. 계정 생성은 RB-DB-001/002 연계 |
-| v1.3 | 2026-04-14 | AI(claude-code) | 중복 SQL 제거 — Oracle 19c/23ai, PG _oper/_adm 생성 SQL을 RB-DB-001/002 참조로 대체. developer_ NOINHERIT SQL만 유지 |
+| v1.4 | 2026-04-14 | AI(claude-code) | 문서명 변경: DB 개발자 계정 운영 런북 → DB 개발자 계정 요청 대응 런북. 관련 문서에 RB-DB-001/002 참조 추가 |
+| v1.3 | 2026-04-14 | AI(claude-code) | 역할 명확화 — 요약문/역할 정의/Workflow를 "케이스 판단 + 안내" 역할로 수정. 계정 생성은 RB-DB-001/002 연계 |
 | v1.2 | 2026-04-13 | AI(claude-code) | 키워드 추가: _OPER/INHERIT/Owner 혼재 |
 | v1.1 | 2026-04-13 | AI(claude-code) | 관련 문서에 [[Oracle DB 계정 생성 런북]], [[PostgreSQL DB 계정 생성 런북]] 참조 추가 |
 | v1.0 | 2026-04-10 | AI(claude-code) | 최초 작성 |

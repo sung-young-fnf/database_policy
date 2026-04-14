@@ -26,7 +26,7 @@ database/
 └── runbooks/
     ├── Oracle DB 계정 생성 런북.md     (RB-DB-001, 런북)
     ├── PostgreSQL DB 계정 생성 런북.md (RB-DB-002, 런북)
-    ├── DB 개발자 계정 운영 런북.md     (RB-DB-003, 런북)
+    ├── DB 개발자 계정 요청 대응 런북.md     (RB-DB-003, 런북)
     └── DB 계정 정책 점검 런북.md       (RB-DB-004, 런북)
 ```
 
@@ -135,7 +135,7 @@ KB 문서 9개의 정확한 제목 (참조 대상):
 5. `PostgreSQL Owner 관리 규칙`
 6. `Oracle DB 계정 생성 런북`
 7. `PostgreSQL DB 계정 생성 런북`
-8. `DB 개발자 계정 운영 런북`
+8. `DB 개발자 계정 요청 대응 런북`
 9. `DB 계정 정책 점검 런북`
 
 외부 참조 (KB 외부 — 존재 확인 불필요):
