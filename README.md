@@ -25,18 +25,19 @@ policy_agent/
 ├── mcp-server/
 │   ├── server.py            # 범용 stdio MCP 서버 (policy.md 기반, 레거시)
 │   └── folder_server.py     # 폴더 기반 stdio MCP 서버 (database용)
-├── database/                # DB 계정 관리 KB 문서 (9개)
-│   ├── Database Platform Index.md        ← IX-DB-001 (AI 진입점)
-│   ├── Database Service Dependencies.md  ← IX-DB-002
-│   ├── standards/
-│   │   ├── DB 계정 분리 규칙.md           ← ST-DB-001
-│   │   ├── DB 계정 네이밍 규칙.md         ← ST-DB-002
-│   │   └── PostgreSQL Owner 관리 규칙.md  ← ST-DB-003
-│   └── runbooks/
-│       ├── Oracle DB 계정 생성 런북.md     ← RB-DB-001
-│       ├── PostgreSQL DB 계정 생성 런북.md ← RB-DB-002
-│       ├── DB 개발자 계정 요청 대응 런북.md     ← RB-DB-003
-│       └── DB 계정 정책 점검 런북.md       ← RB-DB-004
+├── database/
+│   └── RDBMS/              # DB 계정 관리 KB 문서 (9개)
+│       ├── RDBMS Platform Index.md           ← IX-DB-001 (AI 진입점)
+│       ├── RDBMS Service Dependencies.md     ← IX-DB-002
+│       ├── standards/
+│       │   ├── DB 계정 분리 규칙.md           ← ST-DB-001
+│       │   ├── DB 계정 네이밍 규칙.md         ← ST-DB-002
+│       │   └── PostgreSQL Owner 관리 규칙.md  ← ST-DB-003
+│       └── runbooks/
+│           ├── Oracle DB 계정 생성 런북.md     ← RB-DB-001
+│           ├── PostgreSQL DB 계정 생성 런북.md ← RB-DB-002
+│           ├── DB 개발자 계정 요청 대응 런북.md ← RB-DB-003
+│           └── DB 계정 정책 점검 런북.md       ← RB-DB-004
 ├── hooks/
 │   └── tool_tracker.py      # Hook: MCP 도구 호출 추적
 ├── .mcp.json                # Claude Code MCP 서버 등록
@@ -114,13 +115,11 @@ python mcp-server/folder_server.py \
     ↓
 AI: list_documents → 9개 문서 목록 확인
     ↓
-AI: get_document("Database Platform Index") → 키워드 라우팅 확인
+AI: get_document("RDBMS Platform Index") → 키워드 라우팅 확인
     ↓
 AI: get_document("PostgreSQL DB 계정 생성 런북") → 생성 절차 확인
     ↓
-AI: [[DB 계정 네이밍 규칙]] 참조 발견 → get_document("DB 계정 네이밍 규칙")
-    ↓
-AI: 절차 + 네이밍 + SQL을 종합하여 답변
+AI: 런북 내 SQL만으로 답변 충분 → 추가 조회 없이 답변
 ```
 
 ## 기술 스택

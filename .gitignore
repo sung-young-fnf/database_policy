@@ -26,3 +26,6 @@ dashboard/logs/
 
 # 레거시
 mcp-server/main.py
+
+# Snowflake (Outline에만 존재, git 미포함)
+database/Snowflake/
