@@ -41,7 +41,7 @@ Database(Oracle, PostgreSQL) 플랫폼 관련 모든 문서의 AI 진입점. DB 
 
 | 문서 | 서비스 | 대응레벨 | 설명 |
 |-----|-----|------|-----|
-| [[Oracle DB 계정 생성 런북]] | Oracle | 🔴 에스컬레이션 | 23ai(★5안) PL/SQL ON SCHEMA + 19c(★4안) DDL_DML_ROLE |
+| [[Oracle DB 계정 생성 런북]] | Oracle | 🔴 에스컬레이션 | 23ai PL/SQL ON SCHEMA + 19c DDL_DML_ROLE |
 | [[PostgreSQL DB 계정 생성 런북]] | PostgreSQL | 🔴 에스컬레이션 | Owner 3단 분리, Instance→Database→서비스 계정 순서 |
 | [[DB 개발자 계정 요청 대응 런북]] | Oracle, PostgreSQL | 🟡 단계적 | 단일/다중 스키마, NOINHERIT, DA# 도구 계정 |
 | [[DB 계정 정책 점검 런북]] | PostgreSQL | 🟢 직접처리 | 스크립트 추출, 권한 미부여, Owner 혼재 점검 SQL |

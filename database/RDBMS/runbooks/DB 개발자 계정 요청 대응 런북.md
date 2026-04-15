@@ -105,14 +105,14 @@ sequenceDiagram
 
 > 하나의 개발자가 여러 서비스(스키마)를 담당하는 경우
 
-#### Oracle 19c (★4안)
+#### Oracle 19c
 
 `DDL_DML_ROLE`이 Global ANY(PDB 전체)이므로 스키마별로 나눠봐야 의미 없음. **파트(팀) 단위로 1개 `_OPER` 생성**.
 
 > 생성 SQL: [[Oracle DB 계정 생성 런북]] Step 3~4 참조
 > 예시: `EAS_OPER` 1개로 SMARTBILL, PATUAH, EAS 3개 스키마 접근. 각 서비스 TS에 QUOTA UNLIMITED 부여.
 
-#### Oracle 23ai (★5안)
+#### Oracle 23ai 
 
 `ON SCHEMA`로 스키마 단위 권한 부여 가능. 스키마별 `_OPER` 생성.
 
