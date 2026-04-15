@@ -2,8 +2,8 @@
 
 | 필드 | 값 |
 |-----|-----|
-| 도메인 | 인프라 |
-| 플랫폼 | `AWS` |
+| 도메인 | 데이터베이스 |
+| 플랫폼 | `RDBMS` |
 | 서비스 | `RDS`, `PostgreSQL` |
 | 유형 | 런북 |
 | 대응레벨 | 🔴 에스컬레이션 |
@@ -12,7 +12,7 @@
 | 소유자 | @윤형도 |
 | 최종수정 | 2026-04-10 |
 | 문서ID | RB-DB-002 |
-| 트리거 | ITSM 서비스 요청 중 "PostgreSQL DB 계정 생성/변경" 요청 |
+| 트리거 | Jira 서비스 요청 중 "PostgreSQL DB 계정 생성/변경" 요청 |
 | 소요시간 | 30분 |
 | 난이도 | 보통 |
 | 키워드 | `PostgreSQL`, `계정 생성`, `_adm`, `_oper`, `_svc`, `_ops`, `object_owner_role`, `dml_role`, `SET ROLE`, `Owner 분리`, `NOLOGIN`, `DB 계정`, `Aurora`, `RDS`, `DEFAULT PRIVILEGES` |
@@ -48,7 +48,7 @@ sequenceDiagram
     participant DBA as DBA팀
     participant PG as PostgreSQL
 
-    Req->>DBA: ITSM 티켓
+    Req->>DBA: Jira 서비스데스크
     DBA->>PG: Instance - adm, role, oper 생성
     DBA->>PG: Instance - DATABASE 생성
     DBA->>PG: Database - Schema, 권한, SET ROLE
@@ -59,7 +59,7 @@ sequenceDiagram
 
 ## 사전 조건
 
-- [ ] ITSM 티켓 승인 완료
+- [ ] Jira 서비스데스크 승인 완료
 - [ ] 서비스명, 스키마명 확정
 - [ ] rds_superuser(fnfadm) 접속 가능
 - [ ] 패스워드 정책 준수 확인 — [[DB 계정 분리 규칙]] 참조

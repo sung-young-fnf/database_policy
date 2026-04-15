@@ -2,8 +2,8 @@
 
 | 필드 | 값 |
 |-----|-----|
-| 도메인 | 인프라 |
-| 플랫폼 | `AWS` |
+| 도메인 | 데이터베이스 |
+| 플랫폼 | `RDBMS` |
 | 서비스 | `RDS`, `Oracle` |
 | 유형 | 런북 |
 | 대응레벨 | 🔴 에스컬레이션 |
@@ -12,7 +12,7 @@
 | 소유자 | @윤형도 |
 | 최종수정 | 2026-04-10 |
 | 문서ID | RB-DB-001 |
-| 트리거 | ITSM 서비스 요청 중 "Oracle DB 계정 생성/변경" 요청 |
+| 트리거 | Jira 서비스 요청 중 "Oracle DB 계정 생성/변경" 요청 |
 | 소요시간 | 30분 |
 | 난이도 | 보통 |
 | 키워드 | `Oracle`, `계정 생성`, `DDL_DML_ROLE`, `_OPER`, `PL/SQL`, `ON SCHEMA`, `19c`, `23ai`, `스키마 계정`, `개발자 계정`, `읽기전용`, `DB 계정`, `테이블스페이스`, `OPER_TS`, `RDS` |
@@ -54,7 +54,7 @@ sequenceDiagram
     participant DBA as DBA팀
     participant ORA as Oracle
 
-    Req->>DBA: ITSM 티켓
+    Req->>DBA: Jira 서비스데스크
     DBA->>ORA: 버전 확인
     alt 23ai 이상
         DBA->>ORA: TS + 스키마 계정 생성
@@ -69,7 +69,7 @@ sequenceDiagram
 
 ## 사전 조건
 
-- [ ] ITSM 티켓 승인 완료
+- [ ] Jira 서비스데스크 승인 완료
 - [ ] Oracle 버전 확인 (19c / 23ai)
 - [ ] 서비스명, 스키마명 확정
 - [ ] 테이블스페이스 용량 계획 확인

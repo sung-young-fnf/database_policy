@@ -2,8 +2,8 @@
 
 | 필드 | 값 |
 |-----|-----|
-| 도메인 | 보안 |
-| 플랫폼 | `AWS` |
+| 도메인 | 데이터베이스 |
+| 플랫폼 | `RDBMS` |
 | 서비스 | `RDS`, `Oracle`, `PostgreSQL` |
 | 유형 | 표준 |
 | 상태 | 초안 |
@@ -33,6 +33,7 @@ DB 계정 및 Role의 네이밍 규칙을 정의한다. Oracle(대문자)과 Pos
 | `object_owner_role` | `{서비스명}_object_owner_role` | NOLOGIN | `insa_object_owner_role` |
 | `dml_role` | `{스키마명}_dml_role` | NOLOGIN | `insa_sch_dml_role`, `ai_agent_dml_role` |
 | `_oper` | `{서비스명}_oper` | LOGIN | `insa_oper`, `ai_agent_oper` |
+| `developer_` | `developer_{서비스명}` 또는 `developer_{이니셜}` | LOGIN, **NOINHERIT** | `developer_eas`, `developer_sykim` |
 | `_ops` | `{서비스명}_{도구명}_ops` | LOGIN | `ai_agent_prisma_ops` |
 | `_svc` | `{서비스명}_svc` | LOGIN | `insa_svc`, `ai_agent_svc` |
 | Database명 | `{서비스명}_db` (`_db` 선택적) | - | `insa_db`, `ai_agent_db` |
@@ -103,5 +104,6 @@ DB 계정 및 Role의 네이밍 규칙을 정의한다. Oracle(대문자)과 Pos
 
 | 버전 | 일자 | 작성자 | 변경내용 |
 |-----|-----|-----|------|
+| v1.2 | 2026-04-15 | AI(claude-code) | PostgreSQL 전용 네이밍에 `developer_` 패턴 추가 (다중 스키마, NOINHERIT) |
 | v1.1 | 2026-04-13 | AI(claude-code) | 관련 문서에 [[DB 계정 정책 점검 런북]] 참조 추가 |
 | v1.0 | 2026-04-10 | AI(claude-code) | 최초 작성 |

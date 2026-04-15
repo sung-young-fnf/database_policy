@@ -2,8 +2,8 @@
 
 | 필드  | 값   |
 |-----|-----|
-| 도메인 | 운영 |
-| 플랫폼 | `AWS` |
+| 도메인 | 데이터베이스 |
+| 플랫폼 | `RDBMS` |
 | 서비스 | `RDS`, `Oracle`, `PostgreSQL` |
 | 유형  | 런북  |
 | 대응레벨 | 🟡 단계적 |
@@ -34,7 +34,7 @@
   Schema Owner = NOLOGIN Role (object_owner_role)
   → _oper 계정: ALTER USER SET role 자동 (단일 스키마)
   → developer_ 계정: NOINHERIT + 수동 SET ROLE (다중 스키마)
-  → _adm 계정: INHERIT, 도구 전용 (DA#, DB 접근제어)
+  → _adm 계정: DATABASE+Schema Owner 전용, 스키마 생성/삭제만 (DA#, DB 접근제어)
 ```
 
 ## 역할 정의
@@ -174,16 +174,16 @@ RESET ROLE;
 
 #### PostgreSQL
 
-`_adm` 계정 사용. INHERIT이므로 SET ROLE 없이 `object_owner_role` 소유 객체 관리 가능.
+`_adm` 계정 사용. DATABASE Owner + Schema Owner 전용으로, 스키마 생성/삭제만 담당한다. `object_owner_role` 멤버십은 부여하지 않으므로 개별 오브젝트 ALTER/DROP은 불가하며, 필요 시 `DROP SCHEMA CASCADE`로 일괄 삭제한다.
 
 > 생성 SQL: [[PostgreSQL DB 계정 생성 런북]] Step 1 참조
-> `_adm`에는 `ALTER USER SET role` 설정하지 않음. 역방향 GRANT(`_adm`을 `object_owner_role`에 부여)는 금지.
+> `_adm`에는 `object_owner_role` 멤버십을 부여하지 않음 (오브젝트 개별 조작 차단). `ALTER USER SET role` 설정도 하지 않음.
 
 **PostgreSQL 계정 역할 요약**:
 
 | 계정 | 역할 | 사용 주체 |
 |------|------|----------|
-| `{서비스명}_adm` | Database 전체 DDL (INHERIT) | DA#, DB 접근제어 |
+| `{서비스명}_adm` | DATABASE+Schema Owner, 스키마 생성/삭제 전용 | DA#, DB 접근제어 |
 | `{서비스명}_oper` | 스키마 단위 DDL (SET ROLE 자동) | 개발자 |
 | `{서비스명}_svc` | DML 전용 (기본) | 애플리케이션 |
 
